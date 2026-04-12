@@ -1,0 +1,21 @@
+cd ~/code/shefa-react
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.py[oc]
+*.egg-info/
+.venv/
+backend/staticfiles/
+backend/media/
+backend/*.sqlite3
+backend/.env
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+
+# OS
+.DS_Store
+*.swp
+EOF
