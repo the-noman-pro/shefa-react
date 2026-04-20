@@ -16,7 +16,7 @@ def custom_exception_handler(exc, context):
                 for field, messages in response.data.items():
                     if isinstance(messages, list):
                         for msg in messages:
-                            errors.append(f"{field: {msg}}")
+                            errors.append(f"{field}: {msg}")
                     else:
                         errors.append(f"{field}: {messages}")
                 response.data = {
