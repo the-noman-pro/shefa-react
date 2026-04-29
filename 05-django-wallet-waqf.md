@@ -47,7 +47,7 @@ class Wallet(TimestampedModel):
     """
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='wallet',
     )
     balance = models.DecimalField(
@@ -103,7 +103,7 @@ class Wallet(TimestampedModel):
 class WalletTransaction(TimestampedModel):
     wallet = models.ForeignKey(
         Wallet,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='transactions',
     )
     amount = models.DecimalField(max_digits=14, decimal_places=2)
@@ -312,7 +312,7 @@ class Donation(TimestampedModel):
     )
     campaign = models.ForeignKey(
         Campaign,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='donations',
     )
     amount = models.DecimalField(max_digits=14, decimal_places=2)
@@ -622,12 +622,12 @@ class WaqfPurchase(TimestampedModel):
     """Record of a user purchasing waqf units."""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='waqf_purchases',
     )
     product = models.ForeignKey(
         WaqfProduct,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='purchases',
     )
     units = models.PositiveIntegerField()

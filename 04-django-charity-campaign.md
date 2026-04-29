@@ -310,7 +310,7 @@ class Campaign(TimestampedModel):
     """
     charity = models.ForeignKey(
         Charity,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='campaigns',
     )
     title = models.CharField(max_length=300)
