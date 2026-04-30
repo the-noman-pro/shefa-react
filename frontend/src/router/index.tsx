@@ -14,6 +14,7 @@ const WalletPage = lazy(() => import('@/features/wallet/WalletPage'));
 const WaqfListPage = lazy(() => import('@/features/waqf/WaqfListPage'));
 const ProfilePage = lazy(() => import('@/features/auth/ProfilePage'));
 const MyDonationsPage = lazy(() => import('@/features/donation/MyDonationsPage'));
+const AdminDashboardPage = lazy(() => import('@/features/admin/AdminDashboardPage'));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -79,6 +80,14 @@ export const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <Suspense fallback={<PageLoader />}><MyDonationsPage /></Suspense>
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'admin',
+        element: (
+          <RequireAuth>
+            <Suspense fallback={<PageLoader />}><AdminDashboardPage /></Suspense>
           </RequireAuth>
         ),
       },

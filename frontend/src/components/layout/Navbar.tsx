@@ -50,6 +50,11 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
               <>
+                {user?.user_type === 'admin' && (
+                  <Link to="/admin" className="text-sm text-gray-600 hover:text-emerald-600">
+                    Dashboard
+                  </Link>
+                )}
                 <Link to="/wallet" className="text-sm text-gray-600 hover:text-emerald-600">
                   Wallet
                 </Link>
