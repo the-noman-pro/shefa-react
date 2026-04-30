@@ -53,6 +53,13 @@ export default function Navbar() {
                 <Link to="/wallet" className="text-sm text-gray-600 hover:text-emerald-600">
                   Wallet
                 </Link>
+                <NavLink to="/donations" className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive ? 'text-emerald-600' : 'text-gray-600 hover:text-emerald-600'
+                  }`
+                }>
+                  Donations
+                </NavLink>
                 <Link to="/profile" className="text-sm text-gray-600 hover:text-emerald-600">
                   {user?.first_name || user?.email}
                 </Link>

@@ -7,6 +7,7 @@ import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
 import { formatCurrency, formatDate, formatNumber } from '@/utils/formatters';
 import { useAppSelector } from '@/store';
+import { DonateModal } from '@/features/donation/DonationModal';
 
 export default function CampaignDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -156,19 +157,12 @@ export default function CampaignDetailPage() {
         </div>
       </div>
 
-      {/* Donate Modal — placeholder until step 09 */}
-      {showDonateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-md w-full">
-            <h2 className="text-lg font-semibold mb-4">Donate to {campaign.title}</h2>
-            <p className="text-gray-500 text-sm mb-4">
-              Donation feature will be fully implemented in step 09.
-            </p>
-            <button onClick={() => setShowDonateModal(false)} className="btn-secondary w-full">
-              Close
-            </button>
-          </div>
-        </div>
+      {showDonateModal && campaign && (
+        <DonateModal
+          campaign={campaign}
+          onClose={() => setShowDonateModal(false)}
+          onSuccess={() => setShowDonateModal(false)}
+        />
       )}
     </>
   );

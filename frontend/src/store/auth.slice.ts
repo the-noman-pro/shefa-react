@@ -31,8 +31,8 @@ const authSlice = createSlice({
             storage.clearTokens();
         },
         updateUser: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-            storage.setUser(action.payload);
+            state.user = { ...state.user, ...action.payload } as User;
+            storage.setUser({ ...state.user, ...action.payload });
         },
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
