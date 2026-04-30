@@ -13,7 +13,9 @@ const CATEGORY_COLORS: Record<string, 'green' | 'blue' | 'amber' | 'gray'> = {
   food: 'green', water: 'blue', zakat: 'amber', general: 'gray',
 };
 
-export function CampaignCard({ campaign }: CampaignCardProps) {
+import { memo } from 'react';
+
+export const CampaignCard = memo(function CampaignCard({ campaign }: CampaignCardProps) {
   return (
     <Link
       to={`/campaigns/${campaign.slug}`}
