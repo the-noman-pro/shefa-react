@@ -38,38 +38,45 @@ class Wallet(TimestampedModel):
         return self.balance >= Decimal(str(amount))
 
     def credit(self, amount, source, reference='', description=''):
+        from django.db import transaction
         amount = Decimal(str(amount))
-        self.balance += amount
-        self.save(update_fields=['balance', 'updated_at'])
-
-        return WalletTransaction.objects.create(
-            wallet=self,
-            amount=amount,
-            transaction_type=TransactionType.CREDIT,
-            source=source,
-            reference=reference,
-            description=description,
-            balance_after=self.balance,
-        )
+        with transaction.atomic():
+            wallet = Wallet.objects.select_for_update().get(pk=self.pk)
+            wallet.balance += amount
+            wallet.save(update_fields=['balance', 'updated_at'])
+            self.balance = wallet.balance
+            return WalletTransaction.objects.create(
+                wallet=wallet,
+                amount=amount,
+                transaction_type=TransactionType.CREDIT,
+                source=source,
+                reference=reference,
+                description=description,
+                balance_after=wallet.balance,
+            )
+        
 
     def debit(self, amount, source, reference='', description=''):
+        from django.db import transaction
         amount = Decimal(str(amount))
-        if not self.can_afford(amount):
-            raise ValueError(
-                f"Insufficient balance. Available: {self.balance}"
+        with transaction.atomic():
+            wallet = Wallet.objects.select_for_update().get(pk=self.pk)
+            if not wallet.can_afford(amount):
+                raise ValueError(
+                    f"Insufficient balance. Available: {wallet.balance}, Required: {amount}"
+                )
+            wallet.balance -= amount
+            wallet.save(update_fields=['balance', 'updated_at'])
+            self.balance = wallet.balance
+            return WalletTransaction.objects.create(
+                wallet=wallet,
+                amount=amount,
+                transaction_type=TransactionType.DEBIT,
+                source=source,
+                reference=reference,
+                description=description,
+                balance_after=wallet.balance
             )
-        self.balance -= amount
-        self.save(update_fields=['balance', 'updated_at'])
-        
-        return WalletTransaction.objects.create(
-            wallet=self,
-            amount=amount,
-            transaction_type=TransactionType.DEBIT,
-            source=source,
-            reference=reference,
-            description=description,
-            balance_after=self.balance
-        )
 
 
 class WalletTransaction(TimestampedModel):
