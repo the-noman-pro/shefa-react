@@ -59,5 +59,5 @@ class Charity(TimestampedModel):
         return self.name
 
     @property
-    def active_campaign_count(self):
+    def active_campaigns_count(self):
         return self.campaigns.filter(status='active').count()
