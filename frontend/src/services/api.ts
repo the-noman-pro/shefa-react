@@ -1,4 +1,5 @@
-import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
+import type { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { storage } from '@/utils/storage';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
